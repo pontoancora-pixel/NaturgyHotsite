@@ -1,0 +1,230 @@
+/* ============================================
+   TELA 3: VISUALIZADOR DE SERVIÇO (IFRAME)
+   ============================================ */
+
+#screen-viewer {
+  background: var(--color-gray-100);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ─── */
+.viewer__header {
+  position: relative;
+  z-index: 20;
+  min-height: var(--header-height);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  box-shadow: var(--shadow-header);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px var(--space-md);
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+/* ── Header Left (Logo + Title) ─── */
+.viewer__header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.viewer__logo {
+  width: 120px;
+  height: auto;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.viewer__divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.viewer__title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-white);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* ── Header Right (Actions) ─── */
+.viewer__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ── Buttons ─── */
+.viewer__btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 10px var(--space-sm);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast),
+    opacity var(--transition-fast);
+  white-space: nowrap;
+}
+
+.viewer__btn:active {
+  transform: scale(0.95);
+}
+
+.viewer__btn--reload {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.viewer__btn--reload:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.viewer__btn--back {
+  background: var(--color-white);
+  color: var(--color-primary);
+  padding: 10px var(--space-md);
+  font-weight: 600;
+}
+
+.viewer__btn--back:active {
+  background: var(--color-gray-100);
+}
+
+/* ── Iframe Container ─── */
+.viewer__iframe-container {
+  flex: 1;
+  padding: var(--space-sm);
+  display: flex;
+  min-height: 0;
+}
+
+.viewer__iframe-wrapper {
+  flex: 1;
+  background: var(--color-white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-iframe);
+  position: relative;
+}
+
+.viewer__iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ── Loading State ─── */
+.viewer__loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-white);
+  z-index: 5;
+  transition: opacity var(--transition-medium);
+}
+
+.viewer__loading.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.viewer__spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--color-gray-200);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: viewerSpin 800ms linear infinite;
+}
+
+@keyframes viewerSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.viewer__loading-text {
+  margin-top: var(--space-sm);
+  font-size: 16px;
+  color: var(--color-gray-600);
+  font-weight: 400;
+}
+
+/* ── Error/Fallback State ─── */
+.viewer__error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-white);
+  z-index: 6;
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+.viewer__error.active {
+  display: flex;
+}
+
+.viewer__error-icon {
+  font-size: 56px;
+  margin-bottom: var(--space-md);
+  line-height: 1;
+}
+
+.viewer__error-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-gray-800);
+  margin-bottom: var(--space-sm);
+}
+
+.viewer__error-message {
+  font-size: 16px;
+  color: var(--color-gray-600);
+  line-height: 1.6;
+  max-width: 420px;
+  margin-bottom: var(--space-lg);
+}
+
+.viewer__error-retry {
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.viewer__error-retry:active {
+  background: var(--color-primary-dark);
+}

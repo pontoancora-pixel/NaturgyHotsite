@@ -1,0 +1,190 @@
+/* ============================================
+   TELA 2: MENU PRINCIPAL (GRID DE SERVIÇOS)
+   ============================================ */
+
+#screen-menu {
+  background: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ── Topo: Faixa com logo ─── */
+.menu__header-band {
+  width: 100%;
+  background: linear-gradient(180deg, #f0f6fc 0%, var(--color-white) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg) var(--space-lg) var(--space-md);
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.menu__logo {
+  width: clamp(180px, 55vw, 280px);
+  height: auto;
+  pointer-events: none;
+  display: block;
+}
+
+.menu__subtitle {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-gray-400);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* ── Cards Container ─── */
+.menu__cards-area {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md) var(--space-md);
+  min-height: 0;
+}
+
+/* ── Cards Grid ─── */
+.menu__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  width: 100%;
+  max-width: 960px;
+}
+
+/* ── Individual Card ─── */
+.menu__card {
+  background: var(--color-white);
+  border-radius: 20px;
+  padding: var(--space-lg) var(--space-sm) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  cursor: pointer;
+  border: 1px solid rgba(0, 92, 151, 0.06);
+  position: relative;
+  overflow: hidden;
+
+  /* Initial state for entrance animation */
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* ── Card Top Accent Bar ─── */
+.menu__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  opacity: 0;
+  transition: opacity var(--transition-medium);
+}
+
+.menu__card:active::before {
+  opacity: 1;
+}
+
+/* ── Card Press/Touch Feedback ─── */
+.menu__card:active {
+  transform: scale(0.95) !important;
+  box-shadow: var(--shadow-card-press);
+}
+
+/* ── Icon Wrapper (Circle Background) ─── */
+.menu__card-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-white);
+  border: 2px solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.menu__card-icon {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* ── Card Text ─── */
+.menu__card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+
+.menu__card-description {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-gray-600);
+  line-height: 1.5;
+}
+
+/* ── Card Entrance Animation ─── */
+.screen.active .menu__card {
+  animation: cardEntrance 450ms ease-out forwards;
+}
+
+.screen.active .menu__card:nth-child(1) { animation-delay: 80ms; }
+.screen.active .menu__card:nth-child(2) { animation-delay: 140ms; }
+.screen.active .menu__card:nth-child(3) { animation-delay: 200ms; }
+.screen.active .menu__card:nth-child(4) { animation-delay: 260ms; }
+.screen.active .menu__card:nth-child(5) { animation-delay: 320ms; }
+.screen.active .menu__card:nth-child(6) { animation-delay: 380ms; }
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Bottom Brand Bar ─── */
+.menu__footer {
+  margin-top: var(--space-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  opacity: 0.4;
+}
+
+.menu__footer-line {
+  width: 40px;
+  height: 2px;
+  background: var(--color-gray-300);
+  border-radius: 1px;
+}
+
+.menu__footer-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-gray-400);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

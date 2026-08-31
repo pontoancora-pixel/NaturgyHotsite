@@ -1,0 +1,44 @@
+[
+  {
+    "id": "atualizacao-cadastral",
+    "title": "Atualização Cadastral",
+    "description": "Atualize seus dados para a nova Nota Fiscal Eletrônica.",
+    "icon": "/assets/icons/atualizacao-cadastral.png",
+    "url": "https://www.minhanaturgy.com.br/hc/pt-br/articles/48844103414427-Atualiza%C3%A7%C3%A3o-Cadastral"
+  },
+  {
+    "id": "quite-sua-divida",
+    "title": "Quite sua Dívida",
+    "description": "Quite sua dívida de gás e tire o peso da rotina.",
+    "icon": "/assets/icons/quite-sua-divida.png",
+    "url": "https://www.minhanaturgy.com.br/hc/pt-br/articles/44177993293595-Dividas"
+  },
+  {
+    "id": "minhas-faturas",
+    "title": "Minhas Faturas",
+    "description": "Emitir segunda via e consultar contas em aberto.",
+    "icon": "/assets/icons/minhas-faturas.png",
+    "url": "https://www.minhanaturgy.com.br/hc/pt-br"
+  },
+  {
+    "id": "pix-codigo-de-barras",
+    "title": "Pix e Código de Barras",
+    "description": "Pague a fatura com pix ou código de barras.",
+    "icon": "/assets/icons/pix-codigo-de-barras.png",
+    "url": "https://www.minhanaturgy.com.br/hc/pt-br"
+  },
+  {
+    "id": "simulador-de-consumo",
+    "title": "Simulador de Consumo",
+    "description": "Entenda como é calculado o valor da sua conta de gás.",
+    "icon": "/assets/icons/simulador-de-consumo.png",
+    "url": "https://www.minhanaturgy.com.br/hc/pt-br"
+  },
+  {
+    "id": "contestacao-fatura",
+    "title": "Contestação de Fatura",
+    "description": "Contestar aumento no valor de sua conta.",
+    "icon": "/assets/icons/contestacao-fatura.png",
+    "url": "https://www.minhanaturgy.com.br/hc/pt-br"
+  }
+]

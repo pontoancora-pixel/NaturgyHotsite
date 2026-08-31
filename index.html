@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Totem interativo Minha Naturgy — Serviços de gás natural para você">
+  <meta name="theme-color" content="#005c97">
+  <title>Minha Naturgy — Totem Interativo</title>
+
+  <!-- Preconnect fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Preload critical assets -->
+  <link rel="preload" href="/assets/videos/screensaver.mp4" as="video" type="video/mp4">
+  <link rel="preload" href="/assets/logos/logo1.svg" as="image" type="image/svg+xml">
+  <link rel="preload" href="/assets/logos/logo2.svg" as="image" type="image/svg+xml">
+</head>
+<body>
+  <div id="app">
+    <!-- Tela 1: Screensaver (Descanso) -->
+    <section id="screen-screensaver" class="screen active" aria-label="Screensaver">
+      <!-- Rendered by screensaver.js -->
+    </section>
+
+    <!-- Tela 2: Menu Principal (Grid de Serviços) -->
+    <section id="screen-menu" class="screen" aria-label="Menu de Serviços">
+      <!-- Rendered by menu.js -->
+    </section>
+
+    <!-- Tela 3: Visualizador de Serviço (Iframe) -->
+    <section id="screen-viewer" class="screen" aria-label="Visualizador de Serviço">
+      <!-- Rendered by viewer.js -->
+    </section>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

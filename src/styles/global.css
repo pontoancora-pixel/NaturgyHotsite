@@ -1,0 +1,128 @@
+/* ============================================
+   NATURGY KIOSK — GLOBAL DESIGN SYSTEM
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* ── Colors ─── */
+  --color-primary: #005c97;
+  --color-primary-dark: #004270;
+  --color-primary-light: #0078c2;
+  --color-accent: #f47721;
+  --color-accent-light: #ff9a4d;
+  --color-white: #ffffff;
+  --color-black: #0a0a0a;
+  --color-gray-50: #f8f9fa;
+  --color-gray-100: #f1f3f5;
+  --color-gray-200: #e9ecef;
+  --color-gray-300: #dee2e6;
+  --color-gray-400: #adb5bd;
+  --color-gray-600: #6c757d;
+  --color-gray-800: #343a40;
+
+  /* ── Typography ─── */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ── Shadows ─── */
+  --shadow-card: 0 4px 24px rgba(0, 92, 151, 0.08);
+  --shadow-card-hover: 0 8px 40px rgba(0, 92, 151, 0.15);
+  --shadow-card-press: 0 2px 12px rgba(0, 92, 151, 0.05);
+  --shadow-header: 0 2px 20px rgba(0, 0, 0, 0.12);
+  --shadow-iframe: 0 0 40px rgba(0, 92, 151, 0.1);
+
+  /* ── Transitions ─── */
+  --transition-screen: 500ms ease-in-out;
+  --transition-fast: 150ms ease;
+  --transition-medium: 300ms ease;
+
+  /* ── Layout ─── */
+  --header-height: 80px;
+
+  /* ── Spacing ─── */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-2xl: 64px;
+}
+
+/* ── Global Reset ─── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Kiosk Lockdown ─── */
+html, body {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overscroll-behavior: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background: var(--color-black);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Prevent media dragging ─── */
+img, video {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* ── App Container ─── */
+#app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Screen System ─── */
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-screen);
+  will-change: opacity;
+  z-index: 1;
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+/* ── Scrollbar hide ─── */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+/* ── Button Reset ─── */
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  -webkit-tap-highlight-color: transparent;
+}
