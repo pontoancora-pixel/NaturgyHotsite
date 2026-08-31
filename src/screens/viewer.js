@@ -75,13 +75,6 @@ export function initViewer(navigateTo) {
    * Em desenvolvimento local, tenta carregamento direto.
    */
   function getIframeUrl(originalUrl) {
-    const isLocalhost = window.location.hostname === 'localhost' ||
-                        window.location.hostname === '127.0.0.1';
-
-    // Em produção, usar proxy; em localhost, tentar direto
-    if (!isLocalhost) {
-      return `/api/proxy?url=${encodeURIComponent(originalUrl)}`;
-    }
     return originalUrl;
   }
 
