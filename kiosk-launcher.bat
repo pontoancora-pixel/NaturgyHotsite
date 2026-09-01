@@ -1,43 +1,55 @@
 @echo off
 REM ============================================
 REM  NATURGY KIOSK LAUNCHER
-REM  Abre Chrome em modo quiosque com bypass de iframe
+REM  Abre Chrome ou Edge em modo quiosque com bypass total de iframe
 REM ============================================
 REM
 REM  COMO USAR:
-REM  1. Edite a URL abaixo com o endereço Vercel ou local
-REM  2. Execute este arquivo no computador do totem
-REM  3. Para sair: Alt+F4 ou Ctrl+Alt+Del
-REM
-REM  IMPORTANTE: --disable-web-security permite que o iframe
-REM  carregue qualquer site sem restrição de X-Frame-Options.
-REM  Use APENAS no totem dedicado, nunca para navegação normal.
+REM  1. Deixe o servidor rodando (npm run dev)
+REM  2. Execute este arquivo (duplo clique)
+REM  3. Para sair do modo quiosque: Alt + F4
 REM ============================================
 
-SET KIOSK_URL=http://localhost:3000
-SET CHROME_PROFILE=C:\NaturgyKiosk\ChromeProfile
+setlocal enabledelayedexpansion
 
-REM Criar pasta do perfil se não existir
+REM Definir URL (Padrao configurado no vite.config.js: http://localhost:3000)
+SET "KIOSK_URL=http://localhost:3000"
+if not "%~1"=="" SET "KIOSK_URL=%~1"
+
+SET "SCRIPT_DIR=%~dp0"
+SET "EXTENSION_DIR=%SCRIPT_DIR%kiosk-extension"
+SET "CHROME_PROFILE=%LOCALAPPDATA%\NaturgyKiosk\ChromeProfile"
+
+REM Criar pasta do perfil se nao existir
 if not exist "%CHROME_PROFILE%" mkdir "%CHROME_PROFILE%"
 
-REM Fechar instâncias anteriores do Chrome
-taskkill /f /im chrome.exe 2>nul
+REM Localizar executavel do Google Chrome ou Microsoft Edge
+SET "BROWSER_PATH="
+if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" SET "BROWSER_PATH=C:\Program Files\Google\Chrome\Application\chrome.exe"
+if not defined BROWSER_PATH if exist "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" SET "BROWSER_PATH=C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+if not defined BROWSER_PATH if exist "%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe" SET "BROWSER_PATH=%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe"
+if not defined BROWSER_PATH if exist "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" SET "BROWSER_PATH=C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+if not defined BROWSER_PATH if exist "C:\Program Files\Microsoft\Edge\Application\msedge.exe" SET "BROWSER_PATH=C:\Program Files\Microsoft\Edge\Application\msedge.exe"
 
-REM Aguardar fechamento
-timeout /t 2 /nobreak >nul
+if not defined BROWSER_PATH (
+  echo [ERRO] Google Chrome ou Edge nao foram encontrados no sistema.
+  pause
+  exit /b 1
+)
 
-REM Lançar Chrome em modo quiosque
-SET CHROME_PATH="C:\Program Files\Google\Chrome\Application\chrome.exe"
-if not exist %CHROME_PATH% SET CHROME_PATH="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+echo ============================================
+echo  Iniciando Totem Naturgy em Modo Quiosque...
+echo  Navegador: %BROWSER_PATH%
+echo  URL: %KIOSK_URL%
+echo  Extensao: %EXTENSION_DIR%
+echo ============================================
 
-start "" %CHROME_PATH% ^
+start "" "%BROWSER_PATH%" ^
   --kiosk ^
-  --disable-web-security ^
-  --disable-site-isolation-trials ^
-  --disable-features=IsolateOrigins,site-per-process,BlockInsecurePrivateNetworkRequests ^
+  --load-extension="%EXTENSION_DIR%" ^
+  --disable-extensions-except="%EXTENSION_DIR%" ^
   --user-data-dir="%CHROME_PROFILE%" ^
   --disable-translate ^
-  --disable-extensions ^
   --disable-pinch ^
   --overscroll-history-navigation=disabled ^
   --noerrdialogs ^
@@ -46,4 +58,5 @@ start "" %CHROME_PATH% ^
   --autoplay-policy=no-user-gesture-required ^
   "%KIOSK_URL%"
 
-echo Naturgy Kiosk iniciado em %KIOSK_URL%
+echo Totem Naturgy iniciado com sucesso!
+

@@ -10,7 +10,7 @@
   overflow: hidden;
 }
 
-/* ── Topo: Faixa com logo ─── */
+/* ── Topo: Faixa com logo (Dobrado em tamanho e presença) ─── */
 .menu__header-band {
   width: 100%;
   background: linear-gradient(180deg, #f0f6fc 0%, var(--color-white) 100%);
@@ -18,24 +18,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-lg) var(--space-lg) var(--space-md);
+  padding: clamp(64px, 6.8vh, 110px) var(--space-lg) clamp(40px, 4.5vh, 70px);
   flex-shrink: 0;
   border-bottom: 1px solid var(--color-gray-200);
 }
 
 .menu__logo {
-  width: clamp(180px, 55vw, 280px);
+  width: clamp(380px, 46vw, 540px);
   height: auto;
   pointer-events: none;
   display: block;
 }
 
 .menu__subtitle {
-  margin-top: 10px;
-  font-size: 13px;
-  font-weight: 500;
+  margin-top: 22px;
+  font-size: clamp(20px, 2.2vw, 25px);
+  font-weight: 600;
   color: var(--color-gray-400);
-  letter-spacing: 3px;
+  letter-spacing: 5px;
   text-transform: uppercase;
 }
 
@@ -46,24 +46,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-md) var(--space-md);
+  padding: clamp(20px, 2.5vh, 40px) clamp(24px, 4vw, 48px);
   min-height: 0;
 }
 
-/* ── Cards Grid ─── */
+/* ── Cards Grid (2 Colunas x 4 Linhas para Totem 1080x1920) ─── */
 .menu__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-md);
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(18px, 2.2vh, 30px) clamp(20px, 3vw, 36px);
   width: 100%;
-  max-width: 960px;
+  max-width: 1000px;
 }
 
-/* ── Individual Card ─── */
+/* ── Individual Card (Vertical: Ícone no topo, Texto abaixo) ─── */
 .menu__card {
   background: var(--color-white);
-  border-radius: 20px;
-  padding: var(--space-lg) var(--space-sm) var(--space-md);
+  border-radius: 28px;
+  padding: clamp(24px, 2.6vh, 36px) clamp(20px, 2.5vw, 32px) clamp(20px, 2.4vh, 32px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,7 +73,7 @@
     transform var(--transition-fast),
     box-shadow var(--transition-fast);
   cursor: pointer;
-  border: 1px solid rgba(0, 92, 151, 0.06);
+  border: 1px solid rgba(0, 92, 151, 0.08);
   position: relative;
   overflow: hidden;
 
@@ -89,7 +89,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
+  height: 6px;
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
   opacity: 0;
   transition: opacity var(--transition-medium);
@@ -101,45 +101,55 @@
 
 /* ── Card Press/Touch Feedback ─── */
 .menu__card:active {
-  transform: scale(0.95) !important;
+  transform: scale(0.96) !important;
   box-shadow: var(--shadow-card-press);
 }
 
 /* ── Icon Wrapper (Circle Background) ─── */
 .menu__card-icon-wrapper {
-  width: 80px;
-  height: 80px;
+  width: clamp(86px, 9.5vh, 104px);
+  height: clamp(86px, 9.5vh, 104px);
   border-radius: 50%;
   background: var(--color-white);
-  border: 2px solid var(--color-primary);
+  border: 3px solid var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: var(--space-sm);
+  margin-bottom: clamp(12px, 1.4vh, 18px);
   flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(0, 92, 151, 0.08);
 }
 
 .menu__card-icon {
-  width: 46px;
-  height: 46px;
+  width: clamp(48px, 5.5vh, 60px);
+  height: clamp(48px, 5.5vh, 60px);
   object-fit: contain;
   pointer-events: none;
 }
 
-/* ── Card Text ─── */
+/* ── Card Text Container ─── */
+.menu__card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
 .menu__card-title {
-  font-size: 16px;
+  font-size: clamp(22px, 2.5vh, 28px);
   font-weight: 700;
   color: var(--color-primary);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   line-height: 1.25;
 }
 
 .menu__card-description {
-  font-size: 12px;
+  font-size: clamp(17px, 1.9vh, 21px);
   font-weight: 400;
   color: var(--color-gray-600);
-  line-height: 1.5;
+  line-height: 1.4;
+  max-width: 380px;
 }
 
 /* ── Card Entrance Animation ─── */
@@ -147,12 +157,14 @@
   animation: cardEntrance 450ms ease-out forwards;
 }
 
-.screen.active .menu__card:nth-child(1) { animation-delay: 80ms; }
-.screen.active .menu__card:nth-child(2) { animation-delay: 140ms; }
-.screen.active .menu__card:nth-child(3) { animation-delay: 200ms; }
-.screen.active .menu__card:nth-child(4) { animation-delay: 260ms; }
-.screen.active .menu__card:nth-child(5) { animation-delay: 320ms; }
-.screen.active .menu__card:nth-child(6) { animation-delay: 380ms; }
+.screen.active .menu__card:nth-child(1) { animation-delay: 50ms; }
+.screen.active .menu__card:nth-child(2) { animation-delay: 90ms; }
+.screen.active .menu__card:nth-child(3) { animation-delay: 130ms; }
+.screen.active .menu__card:nth-child(4) { animation-delay: 170ms; }
+.screen.active .menu__card:nth-child(5) { animation-delay: 210ms; }
+.screen.active .menu__card:nth-child(6) { animation-delay: 250ms; }
+.screen.active .menu__card:nth-child(7) { animation-delay: 290ms; }
+.screen.active .menu__card:nth-child(8) { animation-delay: 330ms; }
 
 @keyframes cardEntrance {
   from {

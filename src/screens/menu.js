@@ -24,8 +24,10 @@ export function initMenu(navigateTo) {
           loading="eager"
         >
       </div>
-      <h3 class="menu__card-title">${service.title}</h3>
-      <p class="menu__card-description">${service.description}</p>
+      <div class="menu__card-content">
+        <h3 class="menu__card-title">${service.title}</h3>
+        <p class="menu__card-description">${service.description}</p>
+      </div>
     </div>
   `).join('');
 

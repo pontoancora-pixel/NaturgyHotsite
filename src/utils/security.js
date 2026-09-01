@@ -10,9 +10,9 @@ export function initSecurity() {
   // ── Desabilitar menu de contexto (clique direito / toque longo) ───
   window.addEventListener('contextmenu', (e) => e.preventDefault());
 
-  // ── Bloquear teclas de atalho do sistema ───
+  // ── Bloquear teclas de atalho do sistema (mantendo F11 livre para controle de tela cheia) ───
   window.addEventListener('keydown', (e) => {
-    const blockedKeys = ['F5', 'F11', 'F12'];
+    const blockedKeys = ['F5', 'F12'];
 
     if (
       blockedKeys.includes(e.key) ||

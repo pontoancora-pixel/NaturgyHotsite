@@ -44,8 +44,8 @@
 
 
 * **Link 10**
-* **Título:** Meu perfil
-* **Descrição:** Alterar dados de cadastro na Minha Naturgy.
+* **Título:** Cadastro Minha Naturgy
+* **Descrição:** Fazer seu cadastro no Portal
 
 
 * **Link 11**
