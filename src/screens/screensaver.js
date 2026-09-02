@@ -12,9 +12,20 @@ export function initScreensaver(navigateTo) {
 
   // ── Renderizar conteúdo ───
   screen.innerHTML = `
+    <!-- Vídeo de fundo em loop contínuo (chama acesa) -->
     <video
-      class="screensaver__video"
-      autoplay muted loop playsinline
+      class="screensaver__video screensaver__video--loop"
+      muted loop playsinline
+      preload="auto"
+      aria-hidden="true"
+    >
+      <source src="/assets/videos/screensaver2.mp4" type="video/mp4">
+    </video>
+
+    <!-- Vídeo de introdução (boca acendendo) -->
+    <video
+      class="screensaver__video screensaver__video--intro"
+      autoplay muted playsinline
       preload="auto"
       aria-hidden="true"
     >
@@ -35,14 +46,48 @@ export function initScreensaver(navigateTo) {
     <div class="screensaver__glow" aria-hidden="true"></div>
   `;
 
-  // ── Referência ao vídeo ───
-  const video = screen.querySelector('.screensaver__video');
+  // ── Referências aos vídeos ───
+  const videoIntro = screen.querySelector('.screensaver__video--intro');
+  const videoLoop = screen.querySelector('.screensaver__video--loop');
 
-  // Garantir que o vídeo reinicia corretamente em loops longos (8h+)
-  video.addEventListener('ended', () => {
-    video.currentTime = 0;
-    video.play().catch(() => {});
+  /**
+   * Inicia a sequência: roda o vídeo de ignição (intro) primeiro
+   * e deixa o vídeo de loop preparado.
+   */
+  function startScreensaverSequence() {
+    videoIntro.classList.remove('is-hidden');
+    videoIntro.currentTime = 0;
+
+    videoLoop.pause();
+    videoLoop.currentTime = 0;
+
+    videoIntro.play().catch(() => {});
+  }
+
+  // ── Transição suave da intro para o loop ───
+  videoIntro.addEventListener('ended', () => {
+    videoLoop.currentTime = 0;
+    videoLoop.play().then(() => {
+      videoIntro.classList.add('is-hidden');
+      // Pausa a intro em segundo plano para liberar memória/CPU
+      setTimeout(() => {
+        if (videoIntro.classList.contains('is-hidden')) {
+          videoIntro.pause();
+        }
+      }, 300);
+    }).catch(() => {
+      videoIntro.classList.add('is-hidden');
+    });
   });
+
+  // Garantir que o loop reinicia com segurança em execuções longas (8h+)
+  videoLoop.addEventListener('ended', () => {
+    videoLoop.currentTime = 0;
+    videoLoop.play().catch(() => {});
+  });
+
+  // Iniciar sequência na primeira carga
+  startScreensaverSequence();
 
   // ── Handler de toque — qualquer toque vai para o menu ───
   function handleTouch(e) {
@@ -54,13 +99,16 @@ export function initScreensaver(navigateTo) {
   screen.addEventListener('click', handleTouch);
   screen.addEventListener('touchstart', handleTouch, { passive: false });
 
-  // ── Garantir que o vídeo está sempre rodando ───
-  // Observa quando a tela fica ativa e reinicia o vídeo se necessário
+  // ── Observa quando a tela fica ativa/inativa ───
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.attributeName === 'class') {
         if (screen.classList.contains('active')) {
-          video.play().catch(() => {});
+          startScreensaverSequence();
+        } else {
+          // Pausar ambos os vídeos quando o usuário estiver no menu/viewer
+          videoIntro.pause();
+          videoLoop.pause();
         }
       }
     });

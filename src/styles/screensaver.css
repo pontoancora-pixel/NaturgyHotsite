@@ -23,6 +23,20 @@
   z-index: 1;
 }
 
+.screensaver__video--loop {
+  z-index: 1;
+}
+
+.screensaver__video--intro {
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0.25s ease-out;
+}
+
+.screensaver__video--intro.is-hidden {
+  opacity: 0;
+}
+
 /* ── Logo (topo esquerdo) ─── */
 .screensaver__logo {
   position: absolute;
