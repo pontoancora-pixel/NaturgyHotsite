@@ -60,7 +60,7 @@ function navigateTo(screenName, data = {}) {
   // ── 5. Eventos específicos por tela ───
 
   // Carregar serviço no viewer
-  if (screenName === 'viewer' && data.url && data.title) {
+  if (screenName === 'viewer' && (data.url || data.qrCode || data.staticImage) && data.title) {
     window.dispatchEvent(new CustomEvent('viewer:load', { detail: data }));
   }
 

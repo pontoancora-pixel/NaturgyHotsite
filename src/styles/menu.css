@@ -59,21 +59,22 @@
   max-width: 1000px;
 }
 
-/* ── Individual Card (Vertical: Ícone no topo, Texto abaixo) ─── */
+/* ── Individual Card (Alinhamento à esquerda, layout fiel ao site Naturgy) ─── */
 .menu__card {
   background: var(--color-white);
-  border-radius: 28px;
-  padding: clamp(24px, 2.6vh, 36px) clamp(20px, 2.5vw, 32px) clamp(20px, 2.4vh, 32px);
+  border-radius: 18px;
+  padding: clamp(24px, 2.8vh, 36px) clamp(22px, 2.6vw, 34px);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  box-shadow: var(--shadow-card);
+  align-items: flex-start;
+  text-align: left;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
   transition:
     transform var(--transition-fast),
-    box-shadow var(--transition-fast);
+    box-shadow var(--transition-fast),
+    border-color var(--transition-fast);
   cursor: pointer;
-  border: 1px solid rgba(0, 92, 151, 0.08);
+  border: 1px solid #e2e8f0;
   position: relative;
   overflow: hidden;
 
@@ -82,74 +83,54 @@
   transform: translateY(24px);
 }
 
-/* ── Card Top Accent Bar ─── */
-.menu__card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  opacity: 0;
-  transition: opacity var(--transition-medium);
-}
-
-.menu__card:active::before {
-  opacity: 1;
-}
-
 /* ── Card Press/Touch Feedback ─── */
 .menu__card:active {
-  transform: scale(0.96) !important;
-  box-shadow: var(--shadow-card-press);
+  transform: scale(0.97) !important;
+  box-shadow: 0 2px 10px rgba(0, 92, 151, 0.12);
+  border-color: var(--color-primary);
 }
 
-/* ── Icon Wrapper (Circle Background) ─── */
+/* ── Icon Wrapper (Ícone limpo no topo esquerdo, sem círculo/borda) ─── */
 .menu__card-icon-wrapper {
-  width: clamp(86px, 9.5vh, 104px);
-  height: clamp(86px, 9.5vh, 104px);
-  border-radius: 50%;
-  background: var(--color-white);
-  border: 3px solid var(--color-primary);
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: clamp(12px, 1.4vh, 18px);
+  justify-content: flex-start;
+  margin-bottom: clamp(14px, 1.8vh, 22px);
   flex-shrink: 0;
-  box-shadow: 0 4px 16px rgba(0, 92, 151, 0.08);
 }
 
 .menu__card-icon {
-  width: clamp(48px, 5.5vh, 60px);
-  height: clamp(48px, 5.5vh, 60px);
+  width: clamp(52px, 6vh, 66px);
+  height: clamp(52px, 6vh, 66px);
   object-fit: contain;
   pointer-events: none;
 }
 
-/* ── Card Text Container ─── */
+/* ── Card Text Container (Alinhado à esquerda) ─── */
 .menu__card-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
   width: 100%;
 }
 
 .menu__card-title {
-  font-size: clamp(22px, 2.5vh, 28px);
+  font-size: clamp(21px, 2.4vh, 26px);
   font-weight: 700;
   color: var(--color-primary);
   margin-bottom: 8px;
   line-height: 1.25;
+  text-align: left;
 }
 
 .menu__card-description {
-  font-size: clamp(17px, 1.9vh, 21px);
+  font-size: clamp(16px, 1.8vh, 19px);
   font-weight: 400;
-  color: var(--color-gray-600);
-  line-height: 1.4;
-  max-width: 380px;
+  color: #475569;
+  line-height: 1.45;
+  text-align: left;
+  max-width: none;
 }
 
 /* ── Card Entrance Animation ─── */

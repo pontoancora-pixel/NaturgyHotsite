@@ -63,6 +63,66 @@ export function initViewer(navigateTo) {
             </button>
           </div>
         </div>
+
+        <!-- Visualização de QR Code dedicada na tela (ex: Guia do Síndico) -->
+        <div class="viewer__qrcode-view" id="viewer-qrcode-view">
+          <div class="viewer__qrcode-badge">
+            <span class="viewer__qrcode-badge-icon">📘</span>
+            <span class="viewer__qrcode-badge-text">Material Exclusivo</span>
+          </div>
+          <h2 class="viewer__qrcode-title" id="viewer-qrcode-title">Guia do Síndico</h2>
+          <p class="viewer__qrcode-desc" id="viewer-qrcode-desc">
+            Aponte a câmera do seu celular para o QR Code abaixo para acessar o e-book completo com orientações para condomínios.
+          </p>
+
+          <div class="viewer__qrcode-card">
+            <div class="viewer__qrcode-img-box">
+              <img class="viewer__qrcode-img" id="viewer-qrcode-img" alt="QR Code" draggable="false" />
+            </div>
+            <div class="viewer__qrcode-scan-hint">
+              <span class="viewer__qrcode-scan-icon">📱</span>
+              <span>Aproxime a câmera do seu celular</span>
+            </div>
+          </div>
+
+          <div class="viewer__qrcode-steps">
+            <div class="viewer__qrcode-step">
+              <div class="viewer__qrcode-step-circle">1</div>
+              <div class="viewer__qrcode-step-text">Abra a câmera do celular</div>
+            </div>
+            <div class="viewer__qrcode-step-divider"></div>
+            <div class="viewer__qrcode-step">
+              <div class="viewer__qrcode-step-circle">2</div>
+              <div class="viewer__qrcode-step-text">Aponte para o QR Code</div>
+            </div>
+            <div class="viewer__qrcode-step-divider"></div>
+            <div class="viewer__qrcode-step">
+              <div class="viewer__qrcode-step-circle">3</div>
+              <div class="viewer__qrcode-step-text">Acesse o Guia no seu aparelho</div>
+            </div>
+          </div>
+
+          <button class="viewer__btn viewer__btn--back-card" id="viewer-qrcode-back-btn">
+            ← Voltar ao Menu
+          </button>
+        </div>
+
+        <!-- Etapa intermediária: Imagem Estática com Botão Acesse -->
+        <div class="viewer__static-view" id="viewer-static-view">
+          <div class="viewer__static-container">
+            <div class="viewer__static-card">
+              <img class="viewer__static-img" id="viewer-static-img" alt="Serviço Naturgy" draggable="false" />
+            </div>
+            <div class="viewer__static-actions">
+              <button class="viewer__static-btn" id="viewer-static-access-btn" aria-label="Acessar página original">
+                <span>Acesse</span>
+                <svg class="viewer__static-btn-arrow" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -87,6 +147,8 @@ export function initViewer(navigateTo) {
   // ── Estado interno ───
   let currentUrl = '';
   let currentTitle = '';
+  let currentStaticImage = '';
+  let isViewingIframeFromStatic = false;
   let currentIframe = null;
   let loadTimeout = null;
   let retryCount = 0;
@@ -101,6 +163,20 @@ export function initViewer(navigateTo) {
   const iframeWrapper = document.getElementById('viewer-iframe-wrapper');
   const errorQrEl = document.getElementById('viewer-error-qr');
   const externalLinkEl = document.getElementById('viewer-external-link');
+  const reloadBtn = document.getElementById('viewer-reload');
+  const backBtn = document.getElementById('viewer-back');
+
+  // Static Image View dedicado na tela
+  const staticView = document.getElementById('viewer-static-view');
+  const staticImg = document.getElementById('viewer-static-img');
+  const staticAccessBtn = document.getElementById('viewer-static-access-btn');
+
+  // QR Code View dedicado na tela
+  const qrCodeView = document.getElementById('viewer-qrcode-view');
+  const qrCodeImg = document.getElementById('viewer-qrcode-img');
+  const qrCodeTitle = document.getElementById('viewer-qrcode-title');
+  const qrCodeDesc = document.getElementById('viewer-qrcode-desc');
+  const qrCodeBackBtn = document.getElementById('viewer-qrcode-back-btn');
 
   // Modal QR
   const qrModal = document.getElementById('viewer-qr-modal');
@@ -118,12 +194,92 @@ export function initViewer(navigateTo) {
   }
 
   /**
+   * Carrega um serviço em modo Imagem Estática intermediária com botão "Acesse".
+   */
+  function loadStaticImageService(imagePath, url, title) {
+    destroyIframe();
+    currentUrl = url;
+    currentTitle = title;
+    currentStaticImage = imagePath;
+    isViewingIframeFromStatic = false;
+    titleEl.textContent = title;
+
+    // Esconder loading e erro de iframe
+    loadingEl.classList.add('hidden');
+    errorEl.classList.remove('active');
+
+    // Esconder view de QR Code
+    if (qrCodeView) qrCodeView.classList.remove('active');
+
+    // Esconder botões irrelevantes no modo Imagem Estática
+    if (qrModalBtn) qrModalBtn.style.display = 'none';
+    if (reloadBtn) reloadBtn.style.display = 'none';
+
+    // Ajustar texto do botão de voltar
+    if (backBtn) backBtn.textContent = '← Voltar ao Menu';
+
+    // Configurar imagem e ativar visualização
+    if (staticImg) staticImg.src = imagePath;
+    if (staticView) staticView.classList.add('active');
+  }
+
+  /**
+   * Carrega um serviço em modo QR Code direto na tela.
+   */
+  function loadQrCodeService(qrCodePath, title, description) {
+    destroyIframe();
+    currentUrl = '';
+    currentTitle = title;
+    currentStaticImage = '';
+    isViewingIframeFromStatic = false;
+    titleEl.textContent = title;
+
+    // Esconder loading e erro de iframe
+    loadingEl.classList.add('hidden');
+    errorEl.classList.remove('active');
+
+    // Esconder view de imagem estática
+    if (staticView) staticView.classList.remove('active');
+
+    // Esconder botões irrelevantes no modo QR Code
+    if (qrModalBtn) qrModalBtn.style.display = 'none';
+    if (reloadBtn) reloadBtn.style.display = 'none';
+    if (backBtn) backBtn.textContent = '← Voltar ao Menu';
+
+    // Atualizar dados da tela do QR Code
+    if (qrCodeTitle) qrCodeTitle.textContent = title;
+    if (qrCodeDesc) {
+      qrCodeDesc.textContent = description || 'Aponte a câmera do seu smartphone para o QR Code para acessar o conteúdo.';
+    }
+    if (qrCodeImg) {
+      qrCodeImg.src = qrCodePath;
+    }
+
+    if (qrCodeView) {
+      qrCodeView.classList.add('active');
+    }
+  }
+
+  /**
    * Carrega um serviço no iframe.
    */
   function loadService(url, title) {
     currentUrl = url;
     currentTitle = title;
     titleEl.textContent = title;
+
+    // Restaurar botões do header
+    if (qrModalBtn) qrModalBtn.style.display = '';
+    if (reloadBtn) reloadBtn.style.display = '';
+
+    // Ajustar texto do botão voltar se veio da imagem estática
+    if (backBtn) {
+      backBtn.textContent = isViewingIframeFromStatic ? '← Voltar' : '← Voltar ao Menu';
+    }
+
+    // Esconder views dedicadas
+    if (qrCodeView) qrCodeView.classList.remove('active');
+    if (staticView) staticView.classList.remove('active');
 
     // Atualizar links de contingência e QR codes
     const qrUrl = getQrCodeUrl(url);
@@ -212,28 +368,60 @@ export function initViewer(navigateTo) {
     destroyIframe();
     currentUrl = '';
     currentTitle = '';
+    currentStaticImage = '';
+    isViewingIframeFromStatic = false;
     retryCount = 0;
     titleEl.textContent = '';
+    if (backBtn) backBtn.textContent = '← Voltar ao Menu';
     loadingEl.classList.remove('hidden');
     errorEl.classList.remove('active');
     if (qrModal) qrModal.classList.remove('active');
+    if (qrCodeView) qrCodeView.classList.remove('active');
+    if (staticView) staticView.classList.remove('active');
+    if (staticImg) staticImg.src = '';
+    if (qrModalBtn) qrModalBtn.style.display = '';
+    if (reloadBtn) reloadBtn.style.display = '';
   }
 
   // ── Event Listeners ───
 
-  // Botão Voltar
-  document.getElementById('viewer-back').addEventListener('click', () => {
-    cleanup();
-    navigateTo('menu');
-  });
-
-  // Botão Recarregar
-  document.getElementById('viewer-reload').addEventListener('click', () => {
-    if (currentUrl) {
-      retryCount = 0;
+  // Botão "Acesse" (Etapa intermediária de Imagem Estática)
+  if (staticAccessBtn) {
+    staticAccessBtn.addEventListener('click', () => {
+      isViewingIframeFromStatic = true;
       loadService(currentUrl, currentTitle);
+    });
+  }
+
+  // Botão Voltar (Header)
+  backBtn.addEventListener('click', () => {
+    if (isViewingIframeFromStatic && currentStaticImage) {
+      // Se estava no iframe após clicar em "Acesse", retorna para a imagem estática
+      destroyIframe();
+      loadStaticImageService(currentStaticImage, currentUrl, currentTitle);
+    } else {
+      cleanup();
+      navigateTo('menu');
     }
   });
+
+  // Botão Voltar (Card do QR Code)
+  if (qrCodeBackBtn) {
+    qrCodeBackBtn.addEventListener('click', () => {
+      cleanup();
+      navigateTo('menu');
+    });
+  }
+
+  // Botão Recarregar
+  if (reloadBtn) {
+    reloadBtn.addEventListener('click', () => {
+      if (currentUrl) {
+        retryCount = 0;
+        loadService(currentUrl, currentTitle);
+      }
+    });
+  }
 
   // Botão Tentar Novamente (no fallback de erro)
   document.getElementById('viewer-retry').addEventListener('click', () => {
@@ -264,9 +452,16 @@ export function initViewer(navigateTo) {
 
   // ── Eventos customizados ───
   window.addEventListener('viewer:load', (e) => {
-    const { url, title } = e.detail;
+    const { url, qrCode, staticImage, title, description } = e.detail;
     retryCount = 0;
-    loadService(url, title);
+    if (staticImage) {
+      loadStaticImageService(staticImage, url, title);
+    } else if (qrCode) {
+      loadQrCodeService(qrCode, title, description);
+    } else {
+      isViewingIframeFromStatic = false;
+      loadService(url, title);
+    }
   });
 
   window.addEventListener('viewer:cleanup', () => {

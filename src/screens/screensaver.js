@@ -50,11 +50,14 @@ export function initScreensaver(navigateTo) {
   const videoIntro = screen.querySelector('.screensaver__video--intro');
   const videoLoop = screen.querySelector('.screensaver__video--loop');
 
+  let hasPrestartedLoop = false;
+
   /**
    * Inicia a sequência: roda o vídeo de ignição (intro) primeiro
    * e deixa o vídeo de loop preparado.
    */
   function startScreensaverSequence() {
+    hasPrestartedLoop = false;
     videoIntro.classList.remove('is-hidden');
     videoIntro.currentTime = 0;
 
@@ -64,9 +67,17 @@ export function initScreensaver(navigateTo) {
     videoIntro.play().catch(() => {});
   }
 
+  // Pré-inicia o loop ~200ms antes do final da intro para eliminar qualquer lag de decodificação
+  videoIntro.addEventListener('timeupdate', () => {
+    if (!hasPrestartedLoop && videoIntro.duration && videoIntro.currentTime >= (videoIntro.duration - 0.2)) {
+      hasPrestartedLoop = true;
+      videoLoop.currentTime = 0;
+      videoLoop.play().catch(() => {});
+    }
+  });
+
   // ── Transição suave da intro para o loop ───
   videoIntro.addEventListener('ended', () => {
-    videoLoop.currentTime = 0;
     videoLoop.play().then(() => {
       videoIntro.classList.add('is-hidden');
       // Pausa a intro em segundo plano para liberar memória/CPU
@@ -74,7 +85,7 @@ export function initScreensaver(navigateTo) {
         if (videoIntro.classList.contains('is-hidden')) {
           videoIntro.pause();
         }
-      }, 300);
+      }, 250);
     }).catch(() => {
       videoIntro.classList.add('is-hidden');
     });

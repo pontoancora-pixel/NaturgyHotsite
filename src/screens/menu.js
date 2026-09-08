@@ -60,8 +60,11 @@ export function initMenu(navigateTo) {
     function handleCardClick(e) {
       e.preventDefault();
       navigateTo('viewer', {
-        url: service.url,
+        url: service.url || '',
+        qrCode: service.qrCode || '',
+        staticImage: service.staticImage || '',
         title: service.title,
+        description: service.description || '',
       });
     }
 
