@@ -17,7 +17,7 @@ export function initViewer(navigateTo) {
       <div class="viewer__header-left">
         <img
           class="viewer__logo"
-          src="/assets/logos/logo1.svg"
+          src="/assets/logos/logo1branca.svg"
           alt="Naturgy"
           draggable="false"
         >
