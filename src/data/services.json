@@ -11,7 +11,7 @@
     "title": "Quite sua Dívida",
     "description": "Quite sua dívida de gás e tire o peso da rotina.",
     "icon": "/assets/icons/quite-sua-divida.png",
-    "url": "https://portal.minhanaturgy.com.br/Fatura/Consulta",
+    "url": "https://portal.minhanaturgy.com.br/ParcelamentoDivida",
     "staticImage": "/assets/imagens/Quitesuadivida.png"
   },
   {
@@ -35,7 +35,7 @@
     "title": "Fatura Online",
     "description": "Aderir ao recebimento da conta por e-mail.",
     "icon": "/assets/icons/fatura-online.png",
-    "url": "https://portal.minhanaturgy.com.br/Fatura/Consulta",
+    "url": "https://www.minhanaturgy.com.br/hc/pt-br/requests/new?ticket_form_id=360000447451",
     "staticImage": "/assets/imagens/faturaonline.png"
   },
   {
@@ -50,7 +50,7 @@
     "title": "Cadastro Minha Naturgy",
     "description": "Fazer seu cadastro no Portal",
     "icon": "/assets/icons/cadastro-minha-naturgy.png",
-    "url": "https://portal.minhanaturgy.com.br/MeuPerfil"
+    "url": "https://portal.minhanaturgy.com.br/Fatura/Consulta"
   },
   {
     "id": "guia-sindico",

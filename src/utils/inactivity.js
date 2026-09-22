@@ -2,7 +2,7 @@
    WATCHDOG DE INATIVIDADE
    ============================================ */
 
-const INACTIVITY_TIMEOUT = 60 * 1000; // 60 segundos
+const INACTIVITY_TIMEOUT = 120 * 1000; // 120 segundos
 const INTERACTION_EVENTS = ['touchstart', 'pointerdown', 'click', 'mousemove'];
 
 let timeoutId = null;
@@ -40,6 +40,14 @@ export function initInactivity(onReset) {
 
   INTERACTION_EVENTS.forEach(event => {
     window.addEventListener(event, onInteraction, { passive: true });
+  });
+
+  // Resetar timer quando o usuário clica/toca dentro de um iframe (detectado via blur da janela)
+  window.addEventListener('blur', () => {
+    if (!isPaused && document.activeElement && document.activeElement.tagName === 'IFRAME') {
+      console.log('[Inatividade] Foco detectado no Iframe — resetando timer (120s)');
+      resetTimer();
+    }
   });
 
   console.log(`[Inatividade] Inicializado — timeout de ${INACTIVITY_TIMEOUT / 1000}s`);

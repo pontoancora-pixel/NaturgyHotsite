@@ -1,24 +1,14 @@
 @echo off
-REM ============================================
-REM  NATURGY KIOSK LAUNCHER
-REM  Abre Chrome ou Edge em modo quiosque com bypass total de iframe
-REM ============================================
-REM
-REM  COMO USAR:
-REM  1. Deixe o servidor rodando (npm run dev)
-REM  2. Execute este arquivo (duplo clique)
-REM  3. Para sair do modo quiosque: Alt + F4
-REM ============================================
+REM ===================================================
+REM  CONFIGURADOR DO PERFIL DO TOTEM NATURGY
+REM  Abre o perfil do quiosque em modo janela normal
+REM  para instalar a extensao "Ignore X-Frame-Headers"
+REM ===================================================
 
 setlocal enabledelayedexpansion
 
-REM Definir URL (Padrao configurado para producao Vercel)
-SET "KIOSK_URL=https://naturgy-hotsite.vercel.app/"
-if not "%~1"=="" SET "KIOSK_URL=%~1"
-
-SET "SCRIPT_DIR=%~dp0"
-SET "EXTENSION_DIR=%SCRIPT_DIR%kiosk-extension"
 SET "CHROME_PROFILE=%LOCALAPPDATA%\NaturgyKiosk\ChromeProfile"
+SET "EXTENSION_URL=https://chromewebstore.google.com/detail/ignore-x-frame-headers/gleekbfjekiniecknbkamfmkohkpodhe"
 
 REM Criar pasta do perfil se nao existir
 if not exist "%CHROME_PROFILE%" mkdir "%CHROME_PROFILE%"
@@ -37,24 +27,18 @@ if not defined BROWSER_PATH (
   exit /b 1
 )
 
-echo ============================================
-echo  Iniciando Totem Naturgy em Modo Quiosque...
-echo  Navegador: %BROWSER_PATH%
-echo  URL: %KIOSK_URL%
-echo  Extensao: %EXTENSION_DIR%
-echo ============================================
+echo ===================================================
+echo  Abrindo Perfil do Totem Naturgy...
+echo  Local do Perfil: %CHROME_PROFILE%
+echo ===================================================
+echo.
+echo  INSTRUCOES:
+echo  1. Na janela que vai abrir, clique no botao "Usar no Chrome" (ou Instalar).
+echo  2. Apos confirmar a instalacao, feche a janela do navegador.
+echo  3. Em seguida, execute "kiosk-launcher.bat" para iniciar o Totem!
+echo ===================================================
+echo.
 
-start "" "%BROWSER_PATH%" ^
-  --kiosk ^
-  --user-data-dir="%CHROME_PROFILE%" ^
-  --disable-translate ^
-  --disable-pinch ^
-  --overscroll-history-navigation=disabled ^
-  --noerrdialogs ^
-  --disable-infobars ^
-  --disable-session-crashed-bubble ^
-  --autoplay-policy=no-user-gesture-required ^
-  "%KIOSK_URL%"
+start "" "%BROWSER_PATH%" --user-data-dir="%CHROME_PROFILE%" "%EXTENSION_URL%"
 
-echo Totem Naturgy iniciado com sucesso!
-
+exit /b 0
