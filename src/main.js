@@ -13,12 +13,6 @@ import { initScreensaver } from './screens/screensaver.js';
 import { initMenu } from './screens/menu.js';
 import { initViewer } from './screens/viewer.js';
 import { initSecurity } from './utils/security.js';
-import {
-  initInactivity,
-  resetInactivityTimer,
-  pauseInactivity,
-  resumeInactivity,
-} from './utils/inactivity.js';
 
 // ── Estado da aplicação ───
 let currentScreen = 'screensaver';
@@ -49,15 +43,7 @@ function navigateTo(screenName, data = {}) {
     targetScreen.classList.add('active');
   });
 
-  // ── 4. Gerenciar timer de inatividade ───
-  if (screenName === 'screensaver') {
-    pauseInactivity();
-  } else {
-    resumeInactivity();
-    resetInactivityTimer();
-  }
-
-  // ── 5. Eventos específicos por tela ───
+  // ── 4. Eventos específicos por tela ───
 
   // Carregar serviço no viewer
   if (screenName === 'viewer' && (data.url || data.qrCode || data.staticImage) && data.title) {
@@ -81,9 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initScreensaver(navigateTo);
   initMenu(navigateTo);
   initViewer(navigateTo);
-
-  // Inicializar watchdog de inatividade
-  initInactivity(() => navigateTo('screensaver'));
 
   console.log('[Naturgy Kiosk] Aplicação inicializada ✓');
 });

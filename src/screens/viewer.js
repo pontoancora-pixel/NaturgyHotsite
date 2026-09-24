@@ -2,7 +2,6 @@
    TELA 3: VISUALIZADOR DE SERVIÇO (IFRAME)
    ============================================ */
 
-import { resetInactivityTimer } from '../utils/inactivity.js';
 
 /**
  * Inicializa a tela do visualizador de serviço com iframe controlado.
@@ -309,7 +308,6 @@ export function initViewer(navigateTo) {
       clearTimeout(loadTimeout);
       loadingEl.classList.add('hidden');
       retryCount = 0;
-      resetInactivityTimer();
     });
 
     // ── Evento de erro ───

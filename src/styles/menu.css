@@ -44,9 +44,11 @@
   flex: 1;
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(20px, 2.5vh, 40px) clamp(24px, 4vw, 48px);
+  padding: clamp(16px, 2vh, 32px) clamp(24px, 4vw, 48px);
+  gap: clamp(16px, 2vh, 28px);
   min-height: 0;
 }
 
@@ -156,6 +158,64 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ── Botão Fechar / Reiniciar (Abaixo dos cards) ─── */
+.menu__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.screen.active .menu__actions {
+  animation: cardEntrance 450ms ease-out 360ms forwards;
+}
+
+.menu__close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(54px, 6vh, 68px);
+  height: clamp(54px, 6vh, 68px);
+  border-radius: 50%;
+  background: var(--color-white);
+  border: 2px solid #e2e8f0;
+  color: #64748b;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.menu__close-btn:hover {
+  background: #f8fafc;
+  color: #005c97;
+  border-color: #005c97;
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(0, 92, 151, 0.15);
+}
+
+.menu__close-btn:active {
+  transform: scale(0.92);
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.menu__close-icon {
+  width: clamp(24px, 2.6vh, 30px);
+  height: clamp(24px, 2.6vh, 30px);
+  pointer-events: none;
 }
 
 /* ── Bottom Brand Bar ─── */
